@@ -3,7 +3,7 @@
     <div class="search-select">
       <a-select
         show-search
-        placeholder="搜索聊天组"
+        placeholder="Tìm kiếm nhóm"
         :default-active-first-option="false"
         :show-arrow="false"
         :filter-option="false"
@@ -20,29 +20,29 @@
         <a-icon type="plus-circle" class="search-dropdown-button" />
         <a-menu slot="overlay">
           <a-menu-item>
-            <div @click="() => (visibleAddGroup = !visibleAddGroup)">创建群</div>
+            <div @click="() => (visibleAddGroup = !visibleAddGroup)">Tạo nhóm</div>
           </a-menu-item>
           <a-menu-item>
-            <div @click="() => (visibleJoinGroup = !visibleJoinGroup)">搜索群</div>
+            <div @click="() => (visibleJoinGroup = !visibleJoinGroup)">Tìm kiếm nhóm</div>
           </a-menu-item>
           <a-menu-item>
-            <div @click="() => (visibleAddFriend = !visibleAddFriend)">搜索用户</div>
+            <div @click="() => (visibleAddFriend = !visibleAddFriend)">Tìm kiếm người dùng</div>
           </a-menu-item>
         </a-menu>
       </a-dropdown>
     </div>
 
-    <a-modal v-model="visibleAddGroup" footer="" title="创建群">
+    <a-modal v-model="visibleAddGroup" footer="" title="Tạo nhóm">
       <div style="display:flex">
-        <a-input v-model="groupName" placeholder="请输入群名字"></a-input>
-        <a-button @click="addGroup" type="primary">确定</a-button>
+        <a-input v-model="groupName" placeholder="Vui lòng nhập tên nhóm"></a-input>
+        <a-button @click="addGroup" type="primary">Xác nhận</a-button>
       </div>
     </a-modal>
-    <a-modal v-model="visibleJoinGroup" footer="" title="搜索群">
+    <a-modal v-model="visibleJoinGroup" footer="" title="Tìm kiếm nhóm">
       <div style="display:flex" v-if="visibleJoinGroup">
         <a-select
           show-search
-          placeholder="请输入群名字"
+          placeholder="Vui lòng nhập tên nhóm"
           style="width: 90%"
           :default-active-first-option="false"
           :show-arrow="false"
@@ -55,14 +55,14 @@
             <div>{{ group.groupName }}</div>
           </a-select-option>
         </a-select>
-        <a-button @click="joinGroup" type="primary">加入群</a-button>
+        <a-button @click="joinGroup" type="primary">Tham gia nhóm</a-button>
       </div>
     </a-modal>
-    <a-modal v-model="visibleAddFriend" footer="" title="搜索用户">
+    <a-modal v-model="visibleAddFriend" footer="" title="Tìm kiếm người dùng">
       <div style="display:flex" v-if="visibleAddFriend">
         <a-select
           show-search
-          placeholder="请输入用户名"
+          placeholder="Vui lòng nhập tên người dùng"
           style="width: 90%"
           :default-active-first-option="false"
           :show-arrow="false"
@@ -75,7 +75,7 @@
             <div>{{ user.username }}</div>
           </a-select-option>
         </a-select>
-        <a-button @click="addFriend" type="primary">添加好友</a-button>
+        <a-button @click="addFriend" type="primary">Thêm bạn</a-button>
       </div>
     </a-modal>
   </div>

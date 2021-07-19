@@ -34,27 +34,27 @@ export class ChatGateway {
     @InjectRepository(FriendMessage)
     private readonly friendMessageRepository: Repository<FriendMessage>,
   ) {
-    this.defaultGroup = '阿童木聊天室';
+    this.defaultGroup = 'GeneralGroup';
   }
 
   @WebSocketServer()
   server: Server;
 
-  // 默认群
+  // 默认群 Nhóm mặc định
   defaultGroup: string;
 
   // socket连接钩子
   async handleConnection(client: Socket): Promise<string> {
     const userRoom = client.handshake.query.userId;
-    // 连接默认加入"阿童木聊天室"房间
+    // 连接默认加入"GeneralGroup"房间 Kết nối để tham gia phòng "Astro Boy Chat Room" theo mặc định
     client.join(this.defaultGroup);
-    // 进来统计一下在线人数
+    // 进来统计一下在线人数 Hãy đến và đếm số người trực tuyến
     this.getActiveGroupUser();
-    // 用户独有消息房间 根据userId
+    // 用户独有消息房间 根据 (Phòng thông điệp duy nhất của người dùng theo) userId
     if(userRoom) {
       client.join(userRoom);
     }
-    return '连接成功';
+    return 'Kết nối thành công';
   }
 
   // socket断连钩子
@@ -69,7 +69,7 @@ export class ChatGateway {
     if(isUser) {
       const isHaveGroup = await this.groupRepository.findOne({ groupName: data.groupName });
       if (isHaveGroup) {
-        this.server.to(data.userId).emit('addGroup', { code: RCode.FAIL, msg: '该群名字已存在', data: isHaveGroup });
+        this.server.to(data.userId).emit('addGroup', { code: RCode.FAIL, msg: 'Tên nhóm đã tồn tại', data: isHaveGroup });
         return;
       }
       if(!nameVerify(data.groupName)) {
@@ -78,14 +78,14 @@ export class ChatGateway {
       data = await this.groupRepository.save(data);
       client.join(data.groupId);
       const group = await this.groupUserRepository.save(data);
-      this.server.to(group.groupId).emit('addGroup', { code: RCode.OK, msg: `成功创建群${data.groupName}`, data: group });
+      this.server.to(group.groupId).emit('addGroup', { code: RCode.OK, msg: `Đã tạo thành công nhóm ${data.groupName}`, data: group });
       this.getActiveGroupUser();
     } else{
-      this.server.to(data.userId).emit('addGroup', { code: RCode.FAIL, msg: `你没资格创建群` });
+      this.server.to(data.userId).emit('addGroup', { code: RCode.FAIL, msg: `Bạn không đủ điều kiện để tạo một nhóm` });
     }
   }
 
-  // 加入群组
+  // 加入群组 Tham gia nhóm
   @SubscribeMessage('joinGroup')
   async joinGroup(@ConnectedSocket() client: Socket, @MessageBody() data: GroupMap):Promise<any> {
     const isUser = await this.userRepository.findOne({userId: data.userId});
@@ -102,15 +102,15 @@ export class ChatGateway {
         const res = { group: group, user: user };
         this.server.to(group.groupId).emit('joinGroup', {
           code: RCode.OK,
-          msg: `${user.username}加入群${group.groupName}`,
+          msg: `${user.username} Tham gia nhóm ${group.groupName}`,
           data: res
         });
         this.getActiveGroupUser();
       } else {
-        this.server.to(data.userId).emit('joinGroup', { code: RCode.FAIL, msg: '进群失败', data: '' });
+        this.server.to(data.userId).emit('joinGroup', { code: RCode.FAIL, msg: 'Không tham gia được vào nhóm', data: '' });
       }
     } else {
-      this.server.to(data.userId).emit('joinGroup', { code: RCode.FAIL, msg: '你没资格进群'});
+      this.server.to(data.userId).emit('joinGroup', { code: RCode.FAIL, msg: 'Bạn không đủ điều kiện để tham gia nhóm'});
     }
   }
 
@@ -122,20 +122,20 @@ export class ChatGateway {
     if(group && user) {
       client.join(group.groupId);
       const res = { group: group, user: user};
-      this.server.to(group.groupId).emit('joinGroupSocket', {code: RCode.OK, msg:`${user.username}加入群${group.groupName}`, data: res});
+      this.server.to(group.groupId).emit('joinGroupSocket', {code: RCode.OK, msg:`${user.username} Tham gia nhóm ${group.groupName}`, data: res});
     } else {
-      this.server.to(data.userId).emit('joinGroupSocket', {code:RCode.FAIL, msg:'进群失败', data:''});
+      this.server.to(data.userId).emit('joinGroupSocket', {code:RCode.FAIL, msg:'Không tham gia được vào nhóm', data:''});
     }
   }
 
-  // 发送群消息
+  // 发送群消息 Gửi tin nhắn nhóm
   @SubscribeMessage('groupMessage')
   async sendGroupMessage(@MessageBody() data: GroupMessageDto):Promise<any> {
     const isUser = await this.userRepository.findOne({userId: data.userId});
     if(isUser) {
       const userGroupMap = await this.groupUserRepository.findOne({userId: data.userId, groupId: data.groupId});
       if(!userGroupMap || !data.groupId) {
-        this.server.to(data.userId).emit('groupMessage',{code:RCode.FAIL, msg:'群消息发送错误', data: ''});
+        this.server.to(data.userId).emit('groupMessage',{code:RCode.FAIL, msg:'Lỗi gửi tin nhắn nhóm', data: ''});
         return;
       } 
       if(data.messageType === 'image') {
@@ -144,22 +144,22 @@ export class ChatGateway {
         stream.write(data.content);
         data.content = randomName;
       }
-      data.time = new Date().valueOf(); // 使用服务端时间
+      data.time = new Date().valueOf(); // 使用服务端时间 Sử dụng thời gian máy chủ
       await this.groupMessageRepository.save(data);
       this.server.to(data.groupId).emit('groupMessage', {code: RCode.OK, msg:'', data: data});
     } else {
-      this.server.to(data.userId).emit('groupMessage', {code: RCode.FAIL, msg:'你没资格发消息' });
+      this.server.to(data.userId).emit('groupMessage', {code: RCode.FAIL, msg:'Bạn không đủ điều kiện để gửi tin nhắn' });
     }
   }
 
-  // 添加好友
+  // 添加好友 thêm bạn
   @SubscribeMessage('addFriend')
   async addFriend(@ConnectedSocket() client: Socket, @MessageBody() data: UserMap):Promise<any> {
     const isUser = await this.userRepository.findOne({userId: data.userId});
     if(isUser) {
       if (data.friendId && data.userId) {
         if (data.userId === data.friendId) {
-          this.server.to(data.userId).emit('addFriend', { code: RCode.FAIL, msg: '不能添加自己为好友', data: '' });
+          this.server.to(data.userId).emit('addFriend', { code: RCode.FAIL, msg: 'Không thể thêm tôi làm bạn', data: '' });
           return;
         }
         const relation1 = await this.friendRepository.findOne({ userId: data.userId, friendId: data.friendId });
@@ -167,18 +167,18 @@ export class ChatGateway {
         const roomId = data.userId > data.friendId ? data.userId + data.friendId : data.friendId + data.userId;
 
         if (relation1 || relation2) {
-          this.server.to(data.userId).emit('addFriend', { code: RCode.FAIL, msg: '已经有该好友', data: data });
+          this.server.to(data.userId).emit('addFriend', { code: RCode.FAIL, msg: 'Đã có người bạn này', data: data });
           return;
         }
 
         const friend = await this.userRepository.findOne({userId: data.friendId});
         const user = await this.userRepository.findOne({userId: data.userId});
         if (!friend) {
-          this.server.to(data.userId).emit('addFriend', { code: RCode.FAIL, msg: '该好友不存在', data: '' });
+          this.server.to(data.userId).emit('addFriend', { code: RCode.FAIL, msg: 'Người bạn không tồn tại', data: '' });
           return;
         }
 
-        // 双方都添加好友 并存入数据库
+        // 双方都添加好友 并存入数据库  Cả hai bên thêm bạn bè và lưu trữ họ trong cơ sở dữ liệu
         await this.friendRepository.save(data);
         const friendData = JSON.parse(JSON.stringify(data));
         const friendId = friendData.friendId;
@@ -188,7 +188,7 @@ export class ChatGateway {
         await this.friendRepository.save(friendData);
         client.join(roomId);
 
-        // 如果是删掉的好友重新加, 重新获取一遍私聊消息
+        // 如果是删掉的好友重新加, 重新获取一遍私聊消息 Nếu người bạn đã xóa được thêm lại, hãy nhận lại tin nhắn trò chuyện riêng tư
         let messages = await getRepository(FriendMessage)
           .createQueryBuilder("friendMessage")
           .orderBy("friendMessage.time", "DESC")
@@ -205,15 +205,15 @@ export class ChatGateway {
           user.messages = messages;
         }
         
-        this.server.to(data.userId).emit('addFriend', { code: RCode.OK, msg: `添加好友${friend.username}成功`, data: friend });
-        this.server.to(data.friendId).emit('addFriend', { code: RCode.OK, msg: `${user.username}添加你为好友`, data: user });
+        this.server.to(data.userId).emit('addFriend', { code: RCode.OK, msg: `Thêm bạn ${friend.username} thành công`, data: friend });
+        this.server.to(data.friendId).emit('addFriend', { code: RCode.OK, msg: `${user.username} Thêm bạn làm bạn`, data: user });
       }
     } else {
-      this.server.to(data.userId).emit('addFriend', {code: RCode.FAIL, msg:'你没资格加好友' });
+      this.server.to(data.userId).emit('addFriend', {code: RCode.FAIL, msg:'Bạn không đủ tư cách để làm bạn' });
     }
   }
 
-  // 加入私聊的socket连接
+  // 加入私聊的socket连接 Socket kết nối để tham gia trò chuyện riêng tư
   @SubscribeMessage('joinFriendSocket')
   async joinFriend(@ConnectedSocket() client: Socket, @MessageBody() data: UserMap):Promise<any> {
     if(data.friendId && data.userId) {
@@ -221,12 +221,12 @@ export class ChatGateway {
       const roomId = data.userId > data.friendId ?  data.userId + data.friendId : data.friendId + data.userId;
       if(relation) {
         client.join(roomId);
-        this.server.to(data.userId).emit('joinFriendSocket',{ code:RCode.OK, msg:'进入私聊socket成功', data: relation });
+        this.server.to(data.userId).emit('joinFriendSocket',{ code:RCode.OK, msg:'Đã vào thành công cuộc trò chuyện riêng tư socket', data: relation });
       } 
     }
   }
 
-  // 发送私聊消息
+  // 发送私聊消息 Gửi tin nhắn trò chuyện riêng tư
   @SubscribeMessage('friendMessage')
   async friendMessage(@ConnectedSocket() client: Socket, @MessageBody() data: FriendMessageDto):Promise<any> {
     const isUser = await this.userRepository.findOne({userId: data.userId});
@@ -244,11 +244,11 @@ export class ChatGateway {
         this.server.to(roomId).emit('friendMessage', {code: RCode.OK, msg:'', data});
       }
     } else {
-      this.server.to(data.userId).emit('friendMessage', {code: RCode.FAIL, msg:'你没资格发消息', data});
+      this.server.to(data.userId).emit('friendMessage', {code: RCode.FAIL, msg:'Bạn không đủ điều kiện để gửi một tin nhắn', data});
     }
   }
 
-  // 获取所有群和好友数据
+  // 获取所有群和好友数据 Nhận tất cả dữ liệu nhóm và bạn bè
   @SubscribeMessage('chatData') 
   async getAllData(@ConnectedSocket() client: Socket,  @MessageBody() user: User):Promise<any> {
     const isUser = await this.userRepository.findOne({userId: user.userId, password: user.password});
@@ -272,7 +272,7 @@ export class ChatGateway {
         .take(30)
         .getMany();
         groupMessage = groupMessage.reverse();
-        // 这里获取一下发消息的用户的用户信息
+        // 这里获取一下发消息的用户的用户信息 Tại đây để lấy thông tin người dùng của người dùng đã gửi tin nhắn
         for(const message of groupMessage) {
           if(!userGather[message.userId]) {
             userGather[message.userId] = await this.userRepository.findOne({userId: message.userId});
@@ -316,7 +316,7 @@ export class ChatGateway {
       friendArr = friends;
       userArr = [...Object.values(userGather), ...friendArr];
 
-      this.server.to(user.userId).emit('chatData', {code:RCode.OK, msg: '获取聊天数据成功', data: {
+      this.server.to(user.userId).emit('chatData', {code:RCode.OK, msg: 'Nhận dữ liệu trò chuyện thành công', data: {
         groupData: groupArr,
         friendData: friendArr,
         userData: userArr
@@ -328,17 +328,17 @@ export class ChatGateway {
   @SubscribeMessage('exitGroup') 
   async exitGroup(@ConnectedSocket() client: Socket,  @MessageBody() groupMap: GroupMap):Promise<any> {
     if(groupMap.groupId === this.defaultGroup) {
-      return this.server.to(groupMap.userId).emit('exitGroup',{code: RCode.FAIL, msg: '默认群不可退'});
+      return this.server.to(groupMap.userId).emit('exitGroup',{code: RCode.FAIL, msg: 'Nhóm mặc định không được thoát'});
     }
     const user = await this.userRepository.findOne({userId: groupMap.userId});
     const group = await this.groupRepository.findOne({groupId: groupMap.groupId});
     const map = await this.groupUserRepository.findOne({userId: groupMap.userId, groupId: groupMap.groupId});
     if(user && group && map) {
       await this.groupUserRepository.remove(map);
-      this.server.to(groupMap.userId).emit('exitGroup',{code: RCode.OK, msg: '退群成功', data: groupMap});
+      this.server.to(groupMap.userId).emit('exitGroup',{code: RCode.OK, msg: 'Thoát thành công', data: groupMap});
       return this.getActiveGroupUser();
     }
-    this.server.to(groupMap.userId).emit('exitGroup',{code: RCode.FAIL, msg: '退群失败'});
+    this.server.to(groupMap.userId).emit('exitGroup',{code: RCode.FAIL, msg: 'Không rời khỏi nhóm được'});
   }
 
   // 删好友
@@ -351,9 +351,9 @@ export class ChatGateway {
     if(user && friend && map1 && map2) {
       await this.friendRepository.remove(map1);
       await this.friendRepository.remove(map2);
-      return this.server.to(userMap.userId).emit('exitFriend',{code: RCode.OK, msg: '删好友成功', data: userMap});
+      return this.server.to(userMap.userId).emit('exitFriend',{code: RCode.OK, msg: 'Đã xóa bạn bè thành công', data: userMap});
     }
-    this.server.to(userMap.userId).emit('exitFriend',{code: RCode.FAIL, msg: '删好友失败'});
+    this.server.to(userMap.userId).emit('exitFriend',{code: RCode.FAIL, msg: 'Không xóa được bạn bè'});
   }
 
   // 获取在线用户

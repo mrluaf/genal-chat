@@ -16,7 +16,7 @@
     <div class="message-main" :style="{ opacity: messageOpacity }">
       <div class="message-content">
         <transition name="noData">
-          <div class="message-content-noData" v-if="isNoData">没有更多消息了~</div>
+          <div class="message-content-noData" v-if="isNoData">Không có thêm tin tức~</div>
         </transition>
         <template v-for="item in activeRoom.messages">
           <div class="message-content-message" :key="item.userId + item.time" :class="{ 'text-right': item.userId === user.userId }">
@@ -176,7 +176,7 @@ export default class GenalMessage extends Vue {
   throttle(fn: Function, file?: File) {
     let nowTime = +new Date();
     if (nowTime - this.lastTime < 1000) {
-      return this.$message.error('消息获取太频繁！');
+      return this.$message.error('Tin tức được tìm nạp quá thường xuyên!');
     }
     fn(file);
     this.lastTime = nowTime;
@@ -490,7 +490,7 @@ export default class GenalMessage extends Vue {
 
 .transition {
   display: inline-block;
-  animation: transition 0.4s ease;
+  animation: transition 0.1s ease;
 }
 @keyframes transition {
   0% {

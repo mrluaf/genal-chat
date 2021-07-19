@@ -10,9 +10,9 @@ import { AuthModule } from './modules/auth/auth.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      port: 3306,
+      port: 3308,
       username: 'root',
-      password: '123456',
+      password: '',
       database: 'chat',
       charset: "utf8mb4", // 设置chatset编码为utf8mb4
       autoLoadEntities: true,

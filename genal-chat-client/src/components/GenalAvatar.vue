@@ -5,10 +5,10 @@
         <a-avatar :size="60" :src="userGather[data.userId].avatar" />
         <div>{{ userGather[data.userId].username }}</div>
         <a-button v-if="user.role === 'admin'" style="margin-bottom: 5px;" @click="deleteUser(data.userId)" type="primary">
-          删除用户
+          Xóa người dùng
         </a-button>
-        <a-button @click="_setActiveRoom(data.userId)" type="primary" v-if="friendGather[data.userId]">进入私聊</a-button>
-        <a-button @click="addFriend(data.userId)" type="primary" v-else>添加好友</a-button>
+        <a-button @click="_setActiveRoom(data.userId)" type="primary" v-if="friendGather[data.userId]">Vào cuộc trò chuyện riêng tư</a-button>
+        <a-button @click="addFriend(data.userId)" type="primary" v-else>Thêm bạn</a-button>
       </div>
       <a-avatar class="avatar-img" :src="userGather[data.userId].avatar" />
     </a-popover>

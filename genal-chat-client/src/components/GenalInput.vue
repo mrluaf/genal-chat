@@ -6,12 +6,12 @@
           <a-tab-pane key="1" tab="Emoji">
             <genal-emoji @addEmoji="addEmoji"></genal-emoji>
           </a-tab-pane>
-          <a-tab-pane key="2" tab="工具">
+          <a-tab-pane key="2" tab="Tool">
             <div class="message-tool-item">
               <a-upload :show-upload-list="false" :before-upload="beforeImgUpload">
                 <div class="message-tool-contant">
                   <img src="~@/assets/photo.png" class="message-tool-item-img" alt="" />
-                  <div class="message-tool-item-text">图片</div>
+                  <div class="message-tool-item-text">Hình ảnh</div>
                 </div>
               </a-upload>
             </div>
@@ -102,7 +102,7 @@ export default class GenalInput extends Vue {
   throttle(fn: Function, file?: File) {
     let nowTime = +new Date();
     if (nowTime - this.lastTime < 500) {
-      return this.$message.error('消息发送太频繁！');
+      return this.$message.error('Tin nhắn được gửi quá thường xuyên!');
     }
     fn(file);
     this.lastTime = nowTime;
@@ -113,11 +113,11 @@ export default class GenalInput extends Vue {
    */
   preSendMessage() {
     if (!this.text.trim()) {
-      this.$message.error('不能发送空消息!');
+      this.$message.error('Không thể gửi tin nhắn trống!');
       return;
     }
     if (this.text.length > 220) {
-      this.$message.error('消息太长!');
+      this.$message.error('Tin nhắn quá dài!');
       return;
     }
     if (this.activeRoom.groupId) {
@@ -240,11 +240,11 @@ export default class GenalInput extends Vue {
     const isJpgOrPng =
       imageFile.type === 'image/jpeg' || imageFile.type === 'image/png' || imageFile.type === 'image/jpg' || imageFile.type === 'image/gif';
     if (!isJpgOrPng) {
-      return this.$message.error('请选择jpeg/jpg/png/gif格式的图片!');
+      return this.$message.error('Vui lòng chọn ảnh ở định dạng jpeg / jpg / png / gif!');
     }
     const isLt1M = imageFile.size / 1024 / 1024 < 0.5;
     if (!isLt1M) {
-      return this.$message.error('图片必须小于500K!');
+      return this.$message.error('Hình ảnh phải dưới 500K!');
     }
     let image = new Image();
     let url = window.URL || window.webkitURL;

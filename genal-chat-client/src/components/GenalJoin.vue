@@ -2,18 +2,18 @@
   <div class="login">
     <a-modal header="" footer="" :visible="showModal" :closable="false">
       <a-tabs @change="changeType">
-        <a-tab-pane key="login" tab="登录"> </a-tab-pane>
-        <a-tab-pane key="register" tab="注册" force-render> </a-tab-pane>
+        <a-tab-pane key="login" tab="Đăng nhập"> </a-tab-pane>
+        <a-tab-pane key="register" tab="Đăng ký" force-render> </a-tab-pane>
       </a-tabs>
       <a-form id="components-form-demo-normal-login" :form="form" class="login-form" @submit="handleSubmit">
         <a-form-item>
-          <a-input v-decorator="['username', { rules: [{ required: true, message: '请输入用户名!' }] }]" placeholder="username">
+          <a-input v-decorator="['username', { rules: [{ required: true, message: 'Vui lòng nhập tên người dùng!' }] }]" placeholder="username">
             <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
           </a-input>
         </a-form-item>
         <a-form-item>
           <a-input
-            v-decorator="['password', { rules: [{ required: true, message: '请输入密码!' }] }]"
+            v-decorator="['password', { rules: [{ required: true, message: 'Xin vui lòng nhập mật khẩu!' }] }]"
             type="password"
             placeholder="Password"
           >
@@ -30,7 +30,7 @@
               },
             ]"
           >
-            记住密码
+            Nhớ mật khẩu
           </a-checkbox>
           <a-button type="primary" html-type="submit" class="login-form-button">
             {{ buttonText }}
@@ -50,7 +50,7 @@ export default class GenalJoin extends Vue {
   @Prop() showModal: boolean;
   form: any = null;
   type: string = 'login';
-  buttonText: string = '登录';
+  buttonText: string = 'Đăng nhập';
 
   created() {
     this.form = this.$form.createForm(this, { name: 'normal_login' });
@@ -59,9 +59,9 @@ export default class GenalJoin extends Vue {
   changeType(type: string) {
     this.type = type;
     if (this.type === 'login') {
-      this.buttonText = '登录';
+      this.buttonText = 'Đăng nhập';
     } else if (this.type === 'register') {
-      this.buttonText = '注册';
+      this.buttonText = 'Đăng ký';
     }
   }
 

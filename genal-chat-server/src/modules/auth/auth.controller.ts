@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  // 登录测试
+  // 登录测试 Kiểm tra đăng nhập
   @UseGuards(AuthGuard('local'))
   @Post('/login')
   async login(@Request() req) {

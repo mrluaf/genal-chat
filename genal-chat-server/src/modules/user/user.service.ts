@@ -35,10 +35,10 @@ export class UserService {
         data = await this.userRepository.findOne({
           where:{userId: userId}
         });
-        return { msg:'获取用户成功', data };
+        return { msg:'Thành công trong việc thu hút người dùng', data };
       }
     } catch(e) {
-      return { code: RCode.ERROR , msg:'获取用户失败', data: e };
+      return { code: RCode.ERROR , msg:'Không thể có được người dùng', data: e };
     }
   }
 
@@ -55,11 +55,11 @@ export class UserService {
             userArr.push(data);
           }
         }
-        return { msg:'获取用户信息成功', data: userArr};
+        return { msg:'Thành công trong việc lấy thông tin người dùng', data: userArr};
       }
-      return {code: RCode.FAIL, msg:'获取用户信息失败', data: null };
+      return {code: RCode.FAIL, msg:'Không lấy được thông tin người dùng', data: null };
     } catch(e) {
-      return { code: RCode.ERROR , msg:'获取用户信息失败', data: e };
+      return { code: RCode.ERROR , msg:'Không lấy được thông tin người dùng', data: e };
     }
   }
 
@@ -69,17 +69,17 @@ export class UserService {
       if(oldUser && nameVerify(user.username)) {
         const isHaveName = await this.userRepository.findOne({username: user.username});
         if(isHaveName) {
-          return {code: 1, msg:'用户名重复', data: ''};
+          return {code: 1, msg:'Tên người dùng trùng lặp', data: ''};
         }
         const newUser = JSON.parse(JSON.stringify(oldUser));
         newUser.username = user.username;
         newUser.password = user.password;
         await this.userRepository.update(oldUser,newUser);
-        return { msg:'更新用户名成功', data: newUser};
+        return { msg:'Tên người dùng đã được cập nhật thành công', data: newUser};
       }
-      return {code: RCode.FAIL, msg:'更新失败', data: '' };
+      return {code: RCode.FAIL, msg:'Cập nhật không thành công', data: '' };
     } catch(e) {
-      return {code: RCode.ERROR, msg: '更新用户名失败', data: e };
+      return {code: RCode.ERROR, msg: 'Không cập nhật được tên người dùng', data: e };
     }
   }
 
@@ -90,11 +90,11 @@ export class UserService {
         const newUser = JSON.parse(JSON.stringify(oldUser));
         newUser.password = password;
         await this.userRepository.update(oldUser, newUser);
-        return { msg:'更新用户密码成功', data: newUser};
+        return { msg:'Cập nhật mật khẩu người dùng thành công', data: newUser};
       } 
-      return {code: RCode.FAIL, msg:'更新失败', data: '' };
+      return {code: RCode.FAIL, msg:'Cập nhật không thành công', data: '' };
     } catch(e) {
-      return {code: RCode.ERROR, msg: '更新用户密码失败', data: e };
+      return {code: RCode.ERROR, msg: 'Không cập nhật được mật khẩu người dùng', data: e };
     }
   }
 
@@ -104,7 +104,7 @@ export class UserService {
     if(user.username === '陈冠希') {
       newUser.role = 'admin';
       await this.userRepository.update(user,newUser);
-      return { msg:'更新用户信息成功', data: newUser};
+      return { msg:'Đã cập nhật thành công thông tin người dùng', data: newUser};
     }
   }
 
@@ -128,11 +128,11 @@ export class UserService {
         await this.friendMessageRepository.delete({userId: did});
         await this.friendMessageRepository.delete({friendId: did});
         await this.userRepository.delete({userId: did});
-        return { msg: '用户删除成功'};
+        return { msg: 'Đã xóa người dùng thành công'};
       }
-      return {code: RCode.FAIL, msg:'用户删除失败'};
+      return {code: RCode.FAIL, msg:'Không xóa được người dùng'};
     } catch(e) {
-      return {code: RCode.ERROR, msg:'用户删除失败', data: e};
+      return {code: RCode.ERROR, msg:'Không xóa được người dùng', data: e};
     }
   }
 
@@ -144,9 +144,9 @@ export class UserService {
         });
         return { data: users };
       }
-      return {code: RCode.FAIL, msg:'请输入用户名', data: null};
+      return {code: RCode.FAIL, msg:'Vui lòng nhập tên người dùng', data: null};
     } catch(e) {
-      return {code: RCode.ERROR, msg:'查找用户错误', data: null};
+      return {code: RCode.ERROR, msg:'Tìm lỗi người dùng', data: null};
     }
   }
 
@@ -159,9 +159,9 @@ export class UserService {
       newUser.avatar = `api/avatar/${random}${file.originalname}`;
       newUser.password = user.password;
       await this.userRepository.save(newUser);
-      return { msg: '修改头像成功', data: newUser};
+      return { msg: 'Hình đại diện được sửa đổi thành công', data: newUser};
     } else {
-      return {code: RCode.FAIL, msg: '修改头像失败'};
+      return {code: RCode.FAIL, msg: 'Không sửa đổi được hình đại diện'};
     }
   }
 }

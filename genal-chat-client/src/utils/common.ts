@@ -54,7 +54,7 @@ export function formatTime(time: number) {
   }
   // 昨天
   if (moment().startOf('day') > time) {
-    return '昨天 ' + moment(time).format('HH:mm');
+    return 'hôm qua ' + moment(time).format('HH:mm');
   }
   // 大于五分钟不显示秒
   if (new Date().valueOf() > time + 300000) {
@@ -70,15 +70,15 @@ export function formatTime(time: number) {
 export function nameVerify(name: string): boolean {
   let nameReg = /^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]+$/;
   if (name.length === 0) {
-    Vue.prototype.$message.error('请输入名字');
+    Vue.prototype.$message.error('Vui lòng nhập tên');
     return false;
   }
   if (!nameReg.test(name)) {
-    Vue.prototype.$message.error('名字只含有汉字、字母、数字和下划线 不能以下划线开头和结尾');
+    Vue.prototype.$message.error('Tên chỉ chứa các ký tự Trung Quốc, chữ cái, số và dấu gạch dưới, không thể bắt đầu và kết thúc bằng dấu gạch dưới');
     return false;
   }
   if (name.length > 9) {
-    Vue.prototype.$message.error('名字太长');
+    Vue.prototype.$message.error('Cái tên quá dài');
     return false;
   }
   return true;
@@ -91,15 +91,15 @@ export function nameVerify(name: string): boolean {
 export function passwordVerify(password: string): boolean {
   const passwordReg = /^\w+$/gis;
   if (password.length === 0) {
-    Vue.prototype.$message.error('请输入密码');
+    Vue.prototype.$message.error('Xin vui lòng nhập mật khẩu');
     return false;
   }
   if (!passwordReg.test(password)) {
-    Vue.prototype.$message.error('密码只含有字母、数字和下划线');
+    Vue.prototype.$message.error('Mật khẩu chỉ chứa các chữ cái, số và dấu gạch dưới');
     return false;
   }
   if (password.length > 9) {
-    Vue.prototype.$message.error('密码太长');
+    Vue.prototype.$message.error('Mật khẩu quá dài');
     return false;
   }
   return true;

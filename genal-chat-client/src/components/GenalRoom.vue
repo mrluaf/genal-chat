@@ -17,7 +17,7 @@
               v-text="_parseText(chat.messages[chat.messages.length - 1].content)"
               v-if="chat.messages[chat.messages.length - 1].messageType === 'text'"
             ></div>
-            <div class="image" v-if="chat.messages[chat.messages.length - 1].messageType === 'image'">[图片]</div>
+            <div class="image" v-if="chat.messages[chat.messages.length - 1].messageType === 'image'">[hình ảnh]</div>
           </div>
         </div>
       </div>
@@ -37,7 +37,7 @@
               v-text="_parseText(chat.messages[chat.messages.length - 1].content)"
               v-if="chat.messages[chat.messages.length - 1].messageType === 'text'"
             ></div>
-            <div class="image" v-if="chat.messages[chat.messages.length - 1].messageType === 'image'">[图片]</div>
+            <div class="image" v-if="chat.messages[chat.messages.length - 1].messageType === 'image'">[hình ảnh]</div>
           </div>
         </div>
       </div>
@@ -139,8 +139,8 @@ export default class GenalRoom extends Vue {
     &.active {
       background-color: rgb(0, 0, 0, 0.5);
       @include button(rgb(0, 0, 0, 0.5), '~@/assets/animate.png', 3000%, 100%, none, #fff);
-      -webkit-animation: ani 2s steps(29) forwards;
-      animation: ani 0.5s steps(29) forwards;
+      -webkit-animation: ani 0s steps(29) forwards;
+      animation: ani 0.0s steps(29) forwards;
     }
     .room-card-badge {
       position: absolute;

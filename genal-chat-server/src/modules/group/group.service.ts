@@ -26,11 +26,11 @@ export class GroupService {
           const data = await this.groupRepository.findOne({groupId: groupId});
           groupArr.push(data);
         }
-        return { msg:'获取群信息成功', data: groupArr};
+        return { msg:'Nhận thông tin nhóm thành công', data: groupArr};
       }
-      return {code: RCode.FAIL, msg:'获取群信息失败', data: null};
+      return {code: RCode.FAIL, msg:'Không lấy được thông tin nhóm', data: null};
     } catch (e) {
-      return {code: RCode.ERROR, msg:'获取群失败',data: e};
+      return {code: RCode.ERROR, msg:'Không vào được nhóm',data: e};
     }
   }
 
@@ -39,12 +39,12 @@ export class GroupService {
       let data;
       if(userId) {
         data = await this.groupUserRepository.find({userId: userId});
-        return { msg:'获取用户所有群成功', data};
+        return { msg:'Nhận tất cả các nhóm người dùng thành công', data};
       }
       data = await this.groupUserRepository.find();
-      return { msg:'获取系统所有群成功', data};
+      return { msg:'Nhận tất cả các nhóm trong hệ thống thành công', data};
     } catch (e) {
-      return {code: RCode.ERROR, msg:'获取用户的群失败',data: e};
+      return {code: RCode.ERROR, msg:'Không tải được nhóm người dùng',data: e};
     }
   }
 
@@ -53,10 +53,10 @@ export class GroupService {
       let data;
       if(groupId) {
         data = await this.groupUserRepository.find({groupId: groupId});
-        return { msg:'获取群的所有用户成功', data};
+        return { msg:'Nhận tất cả người dùng trong nhóm thành công', data};
       }
     } catch (e) {
-      return {code: RCode.ERROR, msg:'获取群的用户失败',data: e};
+      return {code: RCode.ERROR, msg:'Không lấy được người dùng nhóm',data: e};
     }
   }
 
@@ -90,9 +90,9 @@ export class GroupService {
         const groups = await this.groupRepository.find({groupName: Like(`%${groupName}%`)});
         return { data: groups};
       }
-      return {code: RCode.FAIL, msg:'请输入群昵称', data: null};
+      return {code: RCode.FAIL, msg:'Vui lòng nhập biệt hiệu nhóm', data: null};
     } catch(e) {
-      return {code: RCode.ERROR, msg:'查找群错误', data: null};
+      return {code: RCode.ERROR, msg:'Tìm nhóm lỗi', data: null};
     }
   }
 }

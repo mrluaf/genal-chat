@@ -8,15 +8,15 @@
     </div>
     <a-tooltip placement="topLeft" arrow-point-at-center>
       <div slot="title">
-        <div>请文明聊天</div>
-        <div>截图粘贴可发送图片</div>
+        <div>Hãy trò chuyện văn minh</div>
+        <div>Ảnh chụp màn hình có thể được dán để gửi ảnh</div>
       </div>
       <a-icon type="bulb" class="tool-tip icon" />
     </a-tooltip>
     <a-icon type="skin" class="tool-skin icon" @click="showBackgroundModal = true" />
     <a href="https://github.com/genaller/genal-chat" target="_blank" class="tool-github icon"><a-icon type="github"/></a>
     <a-icon class="tool-out icon" type="poweroff" @click="logout" />
-    <a-modal title="用户信息" :visible="showUserModal" footer="" @cancel="showUserModal = false">
+    <a-modal title="Thông tin người dùng" :visible="showUserModal" footer="" @cancel="showUserModal = false">
       <div class="tool-user">
         <div
           @mouseover="showUpload = true"
@@ -28,36 +28,36 @@
           <a-upload v-if="showUpload && !uploading" class="tool-user-upload" :show-upload-list="false" :before-upload="beforeUpload">
             <div class="text">
               <a-icon type="upload" style="margin-right: 4px;" />
-              <span>更换头像</span>
+              <span>Thay đổi hình đại diện</span>
             </div>
           </a-upload>
           <a-icon class="loading" v-if="uploading" type="loading" spin />
         </div>
         <div class="tool-user-info">
-          <div class="tool-user-title">更改用户名</div>
-          <a-input class="tool-user-input" v-model="username" placeholder="请输入用户名"></a-input>
-          <a-button type="primary" @click="changeUserName">确认</a-button>
+          <div class="tool-user-title">Username</div>
+          <a-input class="tool-user-input" v-model="username" placeholder="Vui lòng nhập tên người dùng"></a-input>
+          <a-button type="primary" @click="changeUserName">Lưu</a-button>
         </div>
         <div class="tool-user-info">
-          <div class="tool-user-title">更改密码</div>
-          <a-input-password class="tool-user-input" v-model="password" placeholder="请输入密码"></a-input-password>
-          <a-button type="primary" @click="changePassword">确认</a-button>
+          <div class="tool-user-title">Mật khẩu</div>
+          <a-input-password class="tool-user-input" v-model="password" placeholder="Xin vui lòng nhập mật khẩu"></a-input-password>
+          <a-button type="primary" @click="changePassword">Lưu</a-button>
         </div>
       </div>
     </a-modal>
     <a-modal title="主题" :visible="showBackgroundModal" footer="" @cancel="showBackgroundModal = false">
       <div class="tool-user-info">
         <div class="tool-user-title" style="width: 65px;">
-          <span>背景图</span>
+          <span>Hình nền</span>
           <a-tooltip placement="topLeft" arrow-point-at-center>
             <div slot="title">
-              <span>输入空格时为默认背景, 支持 jpg, png, gif等格式</span>
+              <span>Nền mặc định khi nhập khoảng trắng, file jpg, png, gif</span>
             </div>
             <a-icon type="exclamation-circle" style="margin-left: 5px;" />
           </a-tooltip>
         </div>
-        <a-input v-model="background" class="tool-user-input" placeholder="请输入背景图片网址"></a-input>
-        <a-button type="primary" @click="changeBackground">确认</a-button>
+        <a-input v-model="background" class="tool-user-input" placeholder="Vui lòng nhập URL hình nền"></a-input>
+        <a-button type="primary" @click="changeBackground">Xác nhận</a-button>
       </div>
       <div class="tool-recommend">
         <div
@@ -72,7 +72,7 @@
             src="https://images.weserv.nl/?url=https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/23fa890c0c244db1b2d6e0927113475c~tplv-k3u1fbpfcp-zoom-1.image?imageView2/2/w/800/q/85"
             alt=""
           />
-          <span class="text">阿童木</span>
+          <span class="text">cậu bé Astro</span>
         </div>
         <div
           class="recommend"
@@ -81,7 +81,7 @@
           "
         >
           <img src="https://images.weserv.nl/?url=https://raw.githubusercontent.com/alexanderbast/vscode-snazzy/master/sample.jpg" alt="" />
-          <span class="text">VSCode摸鱼</span>
+          <span class="text">Câu cá VSCode</span>
         </div>
         <div
           class="recommend"
@@ -95,11 +95,11 @@
             src="https://images.weserv.nl/?url=https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/453b8ebcdefa46a69c620da13f346ce2~tplv-k3u1fbpfcp-zoom-1.image?imageView2/2/w/800/q/85"
             alt=""
           />
-          <span class="text">山谷</span>
+          <span class="text">Thung lũng</span>
         </div>
         <div class="recommend" @click="setBackground('https://pic2.zhimg.com/v2-f76706d67343c66b08c937ec6bc42942_r.jpg?source=1940ef5c')">
           <img src="https://pic2.zhimg.com/v2-f76706d67343c66b08c937ec6bc42942_r.jpg?source=1940ef5c" alt="" />
-          <span class="text">云朵</span>
+          <span class="text">Mây</span>
         </div>
         <div
           class="recommend"
@@ -113,11 +113,11 @@
             src="https://images.weserv.nl/?url=https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cc98cbc4ca284fc0aa509b12db0e325e~tplv-k3u1fbpfcp-zoom-1.image?imageView2/2/w/800/q/85"
             alt=""
           />
-          <span class="text">少女</span>
+          <span class="text">Thời con gái</span>
         </div>
         <div class="recommend" @click="setBackground('https://picb.zhimg.com/v2-263525f6c912d300abfa0eed3acbfd4b_r.jpg')">
           <img src="https://picb.zhimg.com/v2-263525f6c912d300abfa0eed3acbfd4b_r.jpg" alt="" />
-          <span class="text">猫咪</span>
+          <span class="text">Con mèo</span>
         </div>
       </div>
     </a-modal>
@@ -209,11 +209,11 @@ export default class GenalTool extends Vue {
   beforeUpload(file: any) {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/gif';
     if (!isJpgOrPng) {
-      return this.$message.error('请上传jpeg/jpg/png/gif格式的图片!');
+      return this.$message.error('Vui lòng tải ảnh lên ở định dạng jpeg / jpg / png / gif!');
     }
     const isLt1M = file.size / 1024 / 1024 < 0.5;
     if (!isLt1M) {
-      return this.$message.error('图片必须小于500K!');
+      return this.$message.error('Hình ảnh phải dưới 500K!');
     }
     this.avatar = file;
     this.handleUpload();

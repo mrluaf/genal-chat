@@ -17,7 +17,7 @@ export class HttpExceptionFilter implements ExceptionFilter<HttpException> {
     let message = exceptionRes.message;
 
     if(status === 401) {
-      message = '身份过期，请重新登录';
+      message = 'Danh tính hết hạn, vui lòng đăng nhập lại';
     }
     response.status(200).json({
       code: status,

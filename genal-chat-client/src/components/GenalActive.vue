@@ -11,20 +11,20 @@
         :wrap-style="{ position: 'absolute' }"
       >
         <div class="active-content" v-if="activeGroupUser[activeRoom.groupId]">
-          <div class="actiev-content-title">群聊管理</div>
-          <div class="active-content-sum">在线人数: {{ activeNum }}</div>
+          <div class="actiev-content-title">Quản lý trò chuyện nhóm</div>
+          <div class="active-content-sum">người dùng trực tuyến: {{ activeNum }}</div>
           <div class="active-content-users">
             <div class="active-content-user" v-for="data in activeGroupUser[activeRoom.groupId]" :key="data.userId">
               <genal-avatar :data="data" :showTime="false"></genal-avatar>
               {{ data.username }}
             </div>
           </div>
-          <a-button type="danger" class="active-content-out" @click="exitGroup">退出</a-button>
+          <a-button type="danger" class="active-content-out" @click="exitGroup">rơi ra ngoài</a-button>
         </div>
       </a-drawer>
     </div>
     <div v-else>
-      <a-popconfirm title="确定要删除该好友吗？" placement="bottomRight" ok-text="Yes" cancel-text="No" @confirm="exitFriend">
+      <a-popconfirm title="Bạn có chắc chắn muốn xóa người bạn này không?" placement="bottomRight" ok-text="Yes" cancel-text="No" @confirm="exitFriend">
         <a-icon type="user-delete" class="active-button" />
       </a-popconfirm>
     </div>
